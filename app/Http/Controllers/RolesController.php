@@ -12,16 +12,15 @@ class RolesController extends Controller
 
     public function addrole(Request $req)
     {
+        $validator = Validator::make($req->all(), [
+            'roleName' => 'required|string|min:3|max:30',
+            'roleDesc' => 'required|string|min:6',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => "Field Values are not valid  !"], 200);
+        }
         $alreadyExits = RolesModel::where('roleName', $req->input('roleName'))->first();
         if (!$alreadyExits) {
-            $validator = Validator::make($req->all(), [
-                'roleName' => 'required|string|min:3|max:30',
-                'roleDesc' => 'required|string|min:6|max:300',
-
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['success' => false, true, 'message' => "Field Values are not valid  !"], 403);
-            }
             $addRole = new RolesModel();
             $addRole->roleName = $req->input('roleName');
             $addRole->roleDesc = $req->input('roleDesc');
@@ -31,23 +30,25 @@ class RolesController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => "Role Added Succesfully",
-                    200
-                ]);
+
+                ], 200);
             } else {
                 return response()->json([
                     'success' => false,
                     'message' => "Unknown Error Occured !",
-                    403
-                ]);
+
+                ], 200);
             }
         } else {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => 'Role with this Name Already Exits',
-                ],
-                200
-            );
+            return response()->json([
+                'success' => false,
+                'message' => "Role with this Name Already Exits !",
+
+            ], 200);
+            // return response()->json([
+            //         'success' => false,
+            //         'message' => 'Role with this Name Already Exits',
+            //     ],200);
         }
     }
     public function deleteRole(Request $req)

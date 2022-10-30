@@ -29,12 +29,17 @@ class UserController extends Controller
 
         return $userInfo;
     }
-    public function get()
+    public function getAllUsers()
     {
-        $userInfo = User::join('roles', 'users.roleId', '=', 'roles.roleId')
-            ->select('roles.*', 'users.*')
-            ->first();
-        return User::all();
+        //     $userInfo = User::join('roles', 'users.roleId', '=', 'roles.roleId')
+        //         ->select('users.*', 'roles.*')
+        //         ->get();
+        $userInfo = DB::table('users')
+            ->join('roles', 'roles.roleId', '=', 'users.roleId')
+            ->select('roles.roleName', 'users.*')
+            ->get();
+
+        return $userInfo;
     }
 
     public function login(Request $request)
