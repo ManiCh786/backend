@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('assigned_by');
             $table->integer('semester');
             $table->string('department');
+            $table->string('session');
             $table->timestamps();
         });
     }

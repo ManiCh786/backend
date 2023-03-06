@@ -14,6 +14,9 @@ class CourseInstructorsModel extends Model
         'courseId',
         'instructor_userId',
         'assigned_by',
+        'semester',
+        'department',
+        'session',
         'created_at',
         'updated_at',
     );

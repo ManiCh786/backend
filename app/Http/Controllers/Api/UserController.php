@@ -41,6 +41,15 @@ class UserController extends Controller
 
         return $userInfo;
     }
+    public function getAllFacultyMembers()
+    {
+        $userInfo = DB::table('users')
+            ->join('roles', 'roles.roleId', '=', 'users.roleId')
+            ->where('roles.roleName', '=', 'faculty')
+            ->select('roles.roleName', 'users.*')
+            ->get();
+        return $userInfo;
+    }
 
     public function login(Request $request)
     {
@@ -68,10 +77,10 @@ class UserController extends Controller
                         ->first();
                     $token = $userInfo->createToken('userLoginToken')->accessToken;
                     if ($request->user()->hasVerifiedEmail()) {
-                        return response()->json(['message' => 'Login Approved', 'token' => $token, 'verifiedAddress' => '', 'email' => auth()->user()->email, 'accountType' => $userInfo->roleName], 200);
+                        return response()->json(['message' => 'Login Approved', 'token' => $token, 'verifiedAddress' => '', 'email' => auth()->user()->email,'userId' => auth()->user()->userId, 'accountType' => $userInfo->roleName], 200);
                     } else {
                         // email/verify-email
-                        return response()->json(['message' => 'Login Approved', 'token' => $token, 'verifiedAddress' => '', 'email' => auth()->user()->email, 'accountType' => $userInfo->roleName], 200);
+                        return response()->json(['message' => 'Login Approved', 'token' => $token, 'verifiedAddress' => '', 'email' => auth()->user()->email,'userId' => auth()->user()->userId, 'accountType' => $userInfo->roleName], 200);
                     }
                 } else {
                     return response()->json([

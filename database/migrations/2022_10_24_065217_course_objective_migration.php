@@ -17,8 +17,9 @@ return new class extends Migration
         Schema::create('course_objectives', function (Blueprint $table) {
             $table->increments('objId');
             $table->string('objName');
-            $table->text('objDesc');
+            $table->text('outcome');
             $table->integer('courseId');
+            $table->integer('weightage');
             $table->integer('added_by');
             $table->timestamps();
         });

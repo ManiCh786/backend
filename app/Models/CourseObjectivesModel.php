@@ -13,6 +13,7 @@ class CourseObjectivesModel extends Model
         'objId',
         'objName',
         'objDesc',
+        'outcomeBtLevel',
         'courseId',
         'added_by',
         'created_at',
